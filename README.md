@@ -8,6 +8,7 @@ SOMikhaylov Platform repository
 * [Домашнее задание 1 -  Cоздание первого pod.](kubernetes-intro/)
 * [Домашнее задание 2 -  Kubernetes controllers. ReplicaSet, Deployment, DaemonSet.](kubernetes-controllers/)
 * [Домашнее задание 3 -  Настройка сервисных аккаунтов и ограничение прав для них.](kubernetes-security/)
+* [Домашнее задание 4 -  Настройка сетевой связности для приложения. Добавление service, ingress. Установка MetalLB.](kubernetes-networks/)
 
 
 ---
