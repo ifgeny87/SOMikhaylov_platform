@@ -72,7 +72,7 @@ strategy:
 
 ## Задания со *
 ### MetalLB для CoreDNS
-- minikude addoms enable coredns
+- minikude addons enable coredns
 - kubectl delete deploy -n kube-system --grace-period=0 --force kube-dns
 - создан манифест coredns-svc-lb.yaml; selector взят из kubectl describe deploy -n kube-system coredns.
 ```
