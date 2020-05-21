@@ -1,7 +1,5 @@
 ## Основное ДЗ
 
-- установка kubespy - https://github.com/pulumi/kubespy
-
 ### Добавление проверок Pod
 - добавлены проверки readinessProbe и livenessProbe в kubernetes-intro/web-pod.yml
 - livenessProbe проверяет доступность приложения, в случае если проверка провалена, то контейнетер перезапускается в соответсвии c параметром RestartPolicy. В конкретной задаче проверяется факт доступности по 8000 порту tcp.
