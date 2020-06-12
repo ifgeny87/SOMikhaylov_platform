@@ -1,0 +1,16 @@
+expose:
+  type: ingress
+  tls:
+    enabled: true
+  ingress:
+    hosts:
+      core: harbor.{{.Values| get "domain" }}
+    controller: default
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      kubernetes.io/tls-acme: "true"
+      cert-manager.io/cluster-issuer: "letsencrypt-prod"
+
+notary:
+  enabled: false
+ 
