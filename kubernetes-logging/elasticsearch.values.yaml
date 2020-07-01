@@ -1,4 +1,4 @@
-replicas: 2
+replicas: 3
 
 tolerations:  
   - key: node-role    
@@ -9,3 +9,10 @@ tolerations:
 nodeSelector:
   cloud.google.com/gke-nodepool: infra-pool
 
+resources:
+  requests:
+    cpu: "600m"
+    memory: "2Gi"
+  limits:
+    cpu: "600m"
+    memory: "2Gi"

@@ -21,13 +21,45 @@ helm upgrade --install fluent-bit stable/fluent-bit --namespace observability -f
 
 ### мониторинг elasticsearch
 
-prometheus-operator
+установка prometheus-operator
 
 ```
-helm upgrade --install prometheus-operator stable/prometheus-operator --namespace observability
+
+kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_alertmanagers.yaml
+kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_podmonitors.yaml
+kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_prometheuses.yaml
+kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_prometheusrules.yaml
+kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_servicemonitors.yaml
+kubectl apply -f https://raw.githubusercontent.com/coreos/prometheus-operator/release-0.38/example/prometheus-operator-crd/monitoring.coreos.com_thanosrulers.yaml
+
+helm upgrade --install prometheus-operator stable/prometheus-operator --set prometheusOperator.createCustomResource=false -f prometheus-values.yaml -n observability
 ```
 
-prometheus-exporter
+установка elasticsearch prometheus-node-exporter
 ```
 helm upgrade --install elasticsearch-exporter stable/elasticsearch-exporter --set es.uri=http://elasticsearch-master:9200 --set serviceMonitor.enabled=true --namespace=observability
 ```
+
+dashboard для grafana - https://grafana.com/grafana/dashboards/4358
+
+---
+
+### визуализация в kibana
+
+dashboard для nginx-ingress - [export.ndjson](export.ndjson)
+
+---
+
+### Loki
+
+установка
+
+```
+helm repo add loki https://grafana.github.io/loki/charts
+helm repo update
+helm upgrade --install loki loki/loki-stack --namespace observability -f loki.values.yaml
+```
+
+dashboard для nginx-ingress - [nginx-ingress.json](nginx-ingress.json)
+
+---
