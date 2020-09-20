@@ -1,6 +1,5 @@
 # **Microservices-demo**
 - подготовлен репозиторий - https://gitlab.com/SOMikhaylov/microservices-demo
-- helm чарты добавлены в `deploy/charts `
 - pipeline сборки образов и push в dockerhub описан в `.gitlab-ci.yml`
 
 ---
@@ -85,3 +84,48 @@ shippingservice           shippingservice           Succeeded   deployed   Relea
 ---
 
 # **Canary deployments c Flagger и Istio**
+
+установка istio
+``` 
+istioctl install --set profile=demo
+```
+
+установка flagger
+```
+helm repo add flagger https://flagger.app
+kubectl apply -f https://raw.githubusercontent.com/weaveworks/flagger/master/artifacts/flagger/crd.yaml
+helm upgrade --install flagger flagger/flagger \
+--namespace=istio-system \
+--set crd.create=false \
+--set meshProvider=istio \
+--set metricsServer=http://prometheus:9090
+```
+
+проверка
+```
+➜  kubernetes-gitops git:(kubernetes-gitops) ✗ kubectl describe pod -l app=frontend -n microservices-demo |grep istio-proxy
+                {"version":"8e6e902b765af607513b28d284940ee1421e9a0d07698741693b2663c7161c11","initContainers":["istio-init"],"containers":["istio-proxy"]...
+  istio-proxy:
+  Normal  Created    5m41s  kubelet, gke-gke-test-default-node-pool-45e81234-vhxl  Created container istio-proxy
+  Normal  Started    5m41s  kubelet, gke-gke-test-default-node-pool-45e81234-vhxl  Started container istio-proxy
+```
+
+проверка gateway
+```
+➜  microservices-demo git:(master) kubectl get gateway -n microservices-demo
+NAME               AGE
+frontend-gateway   17m
+```
+```
+➜  kubernetes-gitops git:(kubernetes-gitops) ✗ kubectl get svc istio-ingressgateway -n istio-system
+NAME                   TYPE           CLUSTER-IP     EXTERNAL-IP      PORT(S)                                                                      AGE
+istio-ingressgateway   LoadBalancer   10.48.10.228   104.155.65.183   15021:31267/TCP,80:30872/TCP,443:31715/TCP,31400:31472/TCP,15443:30020/TCP   25m
+```
+
+проверка инициализации canary ресурса
+
+```
+➜  SOMikhaylov_platform git:(kubernetes-gitops) ✗ kubectl get canary -n microservices-demo 
+NAME       STATUS        WEIGHT   LASTTRANSITIONTIME
+frontend   Succeeded     0        2020-09-20T16:08:25Z
+```
