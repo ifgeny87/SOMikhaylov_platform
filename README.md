@@ -27,5 +27,6 @@ SOMikhaylov Platform repository
 ## Модуль 3: Kubernetes в деталях
 
 * [Домашнее задание 13 - Отладка и тестирование kubernetes](kubernetes-debug/)
+* [Домашнее задание 14 - Подходы к развертыванию](kubernetes-production-clusters/)
 
 ---

@@ -1,0 +1,7 @@
+project         = "project-123456"
+region          = "europe-west1"
+zone            = "europe-west1-b"
+user            = "user"
+public_key_path = "~/.ssh/user.pub"
+disk_image      = "ubuntu-os-cloud/ubuntu-1804-lts"
+creds           = "credentials.json"
